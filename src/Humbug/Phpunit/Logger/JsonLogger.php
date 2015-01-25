@@ -33,7 +33,7 @@ class JsonLogger
         $this->suites[$title] = $time;
     }
 
-    public function logExample($suite, $title, $time)
+    public function logTest($suite, $title, $time)
     {
         if (!isset($this->tests[$suite])) {
             $this->tests[$suite] = [];
