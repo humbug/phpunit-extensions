@@ -10,6 +10,8 @@
 
 namespace Humbug\Phpunit\Listener;
 
+use Humbug\Phpunit\Logger\JsonLogger;
+
 class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
 {
 
@@ -22,7 +24,7 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
         $this->logger = $logger;
     }
 
-    public function startTestSuite(TestSuite $suite)
+    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         $this->currentSuiteName = $suite->getName();
     }
