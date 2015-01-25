@@ -11,6 +11,6 @@ Installation
 
 ```json
 require: {
-   "padraic/phpunit-extensions": "dev-master"
+   "padraic/phpunit-extensions": "~1.0@dev"
 }
 ```
