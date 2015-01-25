@@ -28,7 +28,7 @@ class JsonLogger
         $this->target = sys_get_temp_dir() . '/phpunit.times.humbug.json';
     }
 
-    public function logTestSuites($title, $time)
+    public function logTestSuite($title, $time)
     {
         $this->suites[$title] = $time;
     }
