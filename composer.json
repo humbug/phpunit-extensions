@@ -1,0 +1,26 @@
+{
+    "name": "padraic/phpunit-extensions",
+    "description": "Collection of Listeners to log and manipulate test run order",
+    "type": "library",
+    "keywords": ["phpunit", "listener", "extension", "humbug", "tests", "testing"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Padraic Brady",
+            "email": "padraic.brady@gmail.com",
+            "homepage": "http://blog.astrumfutura.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-0": { "Humbug\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
