@@ -24,10 +24,15 @@ class FastestFirstFilter extends AbstractFilter
     {
         $times = $this->loadTimes();
         @usort($array, function (\PHPUnit_Framework_TestSuite $a, \PHPUnit_Framework_TestSuite $b) use ($times) {
-            if ($times['suites'][$a->getName()] == $times['suites'][$b->getName()]) {
+            $na = $a->getName();
+            $nb = $b->getName();
+            if (!isset($times['suites'][$na]) || !isset($times['suites'][$nb])) {
+                return 0; // TODO
+            }
+            if ($times['suites'][$na] == $times['suites'][$nb]) {
                 return 0;
             }
-            if ($times['suites'][$a->getName()] < $times['suites'][$b->getName()]) {
+            if ($times['suites'][$na] < $times['suites'][$nb]) {
                 return -1;
             }
             return 1;
