@@ -10,7 +10,7 @@
 
 namespace Humbug\Phpunit\Listener;
 
-class TimeCollectorListener implements \PHPUnit_Framework_BaseTestListener
+class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
 {
 
     protected $currentSuiteName;
