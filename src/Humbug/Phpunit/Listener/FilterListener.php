@@ -10,8 +10,8 @@
 
 namespace Humbug\Phpunit\Listener;
 
-use Humbug\Filter\FilterInterface;
-use Humbug\Filter\TestSuite\AbstractFilter as TestSuiteFilter;
+use Humbug\Phpunit\Filter\FilterInterface;
+use Humbug\Phpunit\Filter\TestSuite\AbstractFilter as TestSuiteFilter;
 
 class FilterListener extends \PHPUnit_Framework_BaseTestListener
 {

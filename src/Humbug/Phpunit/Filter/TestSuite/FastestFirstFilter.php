@@ -27,7 +27,9 @@ class FastestFirstFilter extends AbstractFilter
             $na = $a->getName();
             $nb = $b->getName();
             if (!isset($times['suites'][$na]) || !isset($times['suites'][$nb])) {
-                return 0; // TODO
+                throw new \RuntimeException(
+                    'FastestFirstFilter has encountered an unlogged test suite which cannot be sorted'
+                );
             }
             if ($times['suites'][$na] == $times['suites'][$nb]) {
                 return 0;
