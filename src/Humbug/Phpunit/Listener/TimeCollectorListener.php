@@ -21,6 +21,8 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
 
     protected $currentSuiteTime = 0;
 
+    protected $suiteLevel = 0;
+
     public function __construct(JsonLogger $logger)
     {
         $this->logger = $logger;
@@ -28,6 +30,7 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
 
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
+        $this->suiteLevel++;
         if (!isset($this->rootSuiteName)) {
             $this->rootSuiteName = $suite->getName();
         }
@@ -47,15 +50,15 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         /**
-         * Skip logging of suites which are either:
-         *      a) The root suite containing other file level suites; or
-         *      b) End in ::testName which signify a data provider suite that
-         *          will already be getting logged by its parent suite.
+         * Only log Level 2 test suites, i.e. your actual test classes. Level 1
+         * is the parent root suite(s) defined in the XML config and Level 3 are
+         * those hosting data provider tests.
          */
-        if (preg_match("%\\:\\:[[:alnum:]]+$%", $suite->getName())
-        || $this->rootSuiteName == $suite->getName()) {
+        if ($this->suiteLevel !== 2) {
+            $this->suiteLevel--;
             return;
         }
+        $this->suiteLevel--;
         $this->logger->logTestSuite(
             $suite->getName(),
             $this->currentSuiteTime

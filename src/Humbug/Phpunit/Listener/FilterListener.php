@@ -22,6 +22,8 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
 
     protected $suiteFilters = [];
 
+    protected $suiteLevel = 0;
+
     public function __construct()
     {
         $args = func_get_args();
@@ -37,13 +39,19 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
 
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
+        $this->suiteLevel++;
         $this->currentSuiteName = $suite->getName();
-        if (!isset($this->rootSuiteName)) {
+        if ($this->suiteLevel == 1) {
             $this->rootSuiteName = $suite->getName();
             $suites = $suite->tests();
             $filtered = $this->filterSuites($suites);
             $suite->setTests($filtered);
         }
+    }
+
+    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    {
+        $this->suiteLevel--;
     }
 
     protected function filterSuites(array $suites)
