@@ -3,7 +3,7 @@ Humbug PHPUnit Extensions
 
 A collection of extensions intended to allow for:
 * Timing of test and testsuite execution
-* Filter/Reorder tests using custom filters
+* Filter/Reorder test suites using custom filters
 
 
 Installation
