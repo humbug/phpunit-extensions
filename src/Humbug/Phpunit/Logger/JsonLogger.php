@@ -12,20 +12,18 @@ namespace Humbug\Phpunit\Logger;
 
 class JsonLogger
 {
-
     private $suites = [];
 
     private $tests = [];
 
     private $target;
 
-    public function __construct($target = null)
+    public function __construct($target)
     {
-        if (null !== $target) {
-            $this->target = $target;
-            return;
+        if (!$target) {
+            throw new \LogicException('JsonLogger requires logs target path');
         }
-        $this->target = sys_get_temp_dir() . '/phpunit.times.humbug.json';
+        $this->target = $target;
     }
 
     public function __destruct()
