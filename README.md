@@ -5,6 +5,7 @@ A collection of extensions intended to allow for:
 * Timing of test and testsuite execution
 * Filter/Reorder test suites using custom filters
 
+[![Build Status](https://travis-ci.org/padraic/phpunit-extensions.svg?branch=master)](https://travis-ci.org/padraic/phpunit-extensions)
 
 Installation
 ============
