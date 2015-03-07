@@ -13,6 +13,13 @@ namespace Humbug\Phpunit\Filter;
 interface FilterInterface
 {
 
-    public function filter(array $array);
+    /**
+     * Filter provided array of test suites
+     *
+     * @param string $parent   Name of the parent test suite per XML configuration
+     * @param array $array     Array of test suite classes to be filtered from parent
+     * @return array
+     */
+    public function filter($parent, array $array);
     
 }

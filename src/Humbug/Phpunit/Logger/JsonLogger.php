@@ -31,17 +31,23 @@ class JsonLogger
         $this->write();
     }
 
-    public function logTestSuite($title, $time)
+    public function logTestSuite($parent, $title, $time)
     {
-        $this->suites[$title] = $time;
+        if (!isset($this->suites[$parent])) {
+            $this->suites[$parent] = [];
+        }
+        $this->suites[$parent][$title] = $time;
     }
 
-    public function logTest($suite, $title, $time)
+    public function logTest($parent, $suite, $title, $time)
     {
-        if (!isset($this->tests[$suite])) {
-            $this->tests[$suite] = [];
+        if (!isset($this->tests[$parent])) {
+            $this->tests[$parent] = [];
         }
-        $this->tests[$suite][] = [
+        if (!isset($this->tests[$parent][$suite])) {
+            $this->tests[$parent][$suite] = [];
+        }
+        $this->tests[$parent][$suite][] = [
             'title' => $title,
             'time' => $time
         ];
