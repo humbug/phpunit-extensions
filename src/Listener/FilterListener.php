@@ -69,5 +69,4 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
             $this->suiteFilters[] = $filter;
         }
     }
-
 }

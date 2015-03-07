@@ -21,5 +21,4 @@ interface FilterInterface
      * @return array
      */
     public function filter($parent, array $array);
-    
 }

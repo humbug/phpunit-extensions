@@ -39,6 +39,4 @@ class IncludeOnlyFilter extends AbstractFilter
         }
         return $return;
     }
-
-
 }
