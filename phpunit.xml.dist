@@ -14,7 +14,7 @@
          bootstrap="vendor/autoload.php">
 
     <testsuites>
-        <testsuite name="Phpunit-Extension Test Suite">
+        <testsuite name="Test Suite: phpunit-extensions">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

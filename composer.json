@@ -20,6 +20,9 @@
     "autoload": {
         "psr-4": { "Humbug\\Phpunit\\": "src/" }
     },
+    "autoload-dev": {
+        "psr-4": { "Humbug\\Test\\Phpunit\\": "tests/" }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
