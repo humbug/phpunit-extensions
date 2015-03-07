@@ -64,7 +64,7 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
         }
         $this->suiteLevel--;
         $this->logger->logTestSuite(
-            $this->parentSuiteName
+            $this->parentSuiteName,
             $suite->getName(),
             $this->currentSuiteTime
         );
