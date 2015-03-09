@@ -42,6 +42,7 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         $this->suiteLevel++;
         $this->currentSuiteName = $suite->getName();
         if ($this->suiteLevel == 1) {
+            var_dump($suite->getName());
             $this->rootSuiteName = $suite->getName();
             $suites = $suite->tests();
             $filtered = $this->filterSuites($this->rootSuiteName, $suites);
