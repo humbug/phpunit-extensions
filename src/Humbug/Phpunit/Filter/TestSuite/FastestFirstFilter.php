@@ -20,43 +20,25 @@ class FastestFirstFilter extends AbstractFilter
         $this->log = $log;
     }
 
-    /**
-     * Filter provided array of test suites
-     *
-     * @param string $parent   Name of the parent test suite per XML configuration
-     * @param array $array     Array of test suite classes to be filtered from parent
-     * @return array
-     */
-    public function filter($parent, array $array)
+    public function filter(array $array)
     {
         $times = $this->loadTimes();
         @usort($array, function (\PHPUnit_Framework_TestSuite $a, \PHPUnit_Framework_TestSuite $b) use ($times) {
             $na = $a->getName();
             $nb = $b->getName();
-            if (!isset($times[$parent]['suites'][$na])) {
-                throw new \RuntimeException(sprintf(
-                    'FastestFirstFilter has encountered an unlogged test suite which cannot be sorted being %s in "%s" test suite',
-                    $na,
-                    $parent
-                ));
+            if (!isset($times['suites'][$na]) || !isset($times['suites'][$nb])) {
+                throw new \RuntimeException(
+                    'FastestFirstFilter has encountered an unlogged test suite which cannot be sorted'
+                );
             }
-            if (!isset($times[$parent]['suites'][$nb])) {
-                throw new \RuntimeException(sprintf(
-                    'FastestFirstFilter has encountered an unlogged test suite which cannot be sorted being %s in "%s" test suite',
-                    $nb,
-                    $parent
-                ));
-            }
-
-            if ($times[$parent]['suites'][$na] == $times[$parent]['suites'][$nb]) {
+            if ($times['suites'][$na] == $times['suites'][$nb]) {
                 return 0;
             }
-            if ($times[$parent]['suites'][$na] < $times[$parent]['suites'][$nb]) {
+            if ($times['suites'][$na] < $times['suites'][$nb]) {
                 return -1;
             }
             return 1;
         });
-
         return $array;
     }
 

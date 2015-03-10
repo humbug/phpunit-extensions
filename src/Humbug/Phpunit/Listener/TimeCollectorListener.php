@@ -15,9 +15,9 @@ use Humbug\Phpunit\Logger\JsonLogger;
 class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
 {
 
-    protected $parentSuiteName;
+    protected $rootSuiteName;
 
-    protected $classSuiteName;
+    protected $currentSuiteName;
 
     protected $currentSuiteTime = 0;
 
@@ -31,21 +31,17 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
         $this->suiteLevel++;
-        if ($this->suiteLevel == 1) {
-            $this->parentSuiteName = $suite->getName();
-        } elseif ($this->suiteLevel == 2) {
-            $this->classSuiteName = $suite->getName();
-        } else {
-            // Level 3 are data providers that we'll ignore
+        if (!isset($this->rootSuiteName)) {
+            $this->rootSuiteName = $suite->getName();
         }
+        $this->currentSuiteName = $suite->getName();
     }
 
     public function endTest(\PHPUnit_Framework_Test $test, $time)
     {
         $this->currentSuiteTime += $time;
         $this->logger->logTest(
-            $this->parentSuiteName,
-            $this->classSuiteName,
+            $this->currentSuiteName,
             $test->getName(),
             $time
         );
@@ -64,7 +60,6 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
         }
         $this->suiteLevel--;
         $this->logger->logTestSuite(
-            $this->parentSuiteName,
             $suite->getName(),
             $this->currentSuiteTime
         );

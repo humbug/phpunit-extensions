@@ -12,16 +12,11 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0"
-    },
-    "require-dev": {
+        "php": ">=5.4.0",
         "phpunit/phpunit": "~4.0"
     },
     "autoload": {
-        "psr-4": { "Humbug\\Phpunit\\": "src/" }
-    },
-    "autoload-dev": {
-        "psr-4": { "Humbug\\Test\\Phpunit\\": "tests/" }
+        "psr-0": { "Humbug\\": "src/" }
     },
     "extra": {
         "branch-alias": {

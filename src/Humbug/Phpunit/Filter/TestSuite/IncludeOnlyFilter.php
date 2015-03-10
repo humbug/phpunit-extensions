@@ -21,14 +21,7 @@ class IncludeOnlyFilter extends AbstractFilter
         $this->exclusivelyInclude = func_get_args();
     }
 
-    /**
-     * Filter provided array of test suites
-     *
-     * @param string $parent   Name of the parent test suite per XML configuration
-     * @param array $array     Array of test suite classes to be filtered from parent
-     * @return array
-     */
-    public function filter($parent, array $array)
+    public function filter(array $array)
     {
         // clearly will need to revise once multi-root suites are supported
         $return = [];
@@ -39,4 +32,6 @@ class IncludeOnlyFilter extends AbstractFilter
         }
         return $return;
     }
+
+
 }

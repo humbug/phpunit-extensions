@@ -42,10 +42,9 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         $this->suiteLevel++;
         $this->currentSuiteName = $suite->getName();
         if ($this->suiteLevel == 1) {
-            var_dump($suite->getName());
             $this->rootSuiteName = $suite->getName();
             $suites = $suite->tests();
-            $filtered = $this->filterSuites($this->rootSuiteName, $suites);
+            $filtered = $this->filterSuites($suites);
             $suite->setTests($filtered);
         }
     }
@@ -55,11 +54,11 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         $this->suiteLevel--;
     }
 
-    protected function filterSuites($parent, array $suites)
+    protected function filterSuites(array $suites)
     {
         $filtered = $suites;
         foreach ($this->suiteFilters as $filter) {
-            $filtered = $filter->filter($parent, $filtered);
+            $filtered = $filter->filter($filtered);
         }
         return $filtered;
     }
@@ -70,4 +69,5 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
             $this->suiteFilters[] = $filter;
         }
     }
+
 }

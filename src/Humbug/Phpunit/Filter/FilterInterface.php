@@ -8,10 +8,11 @@
  * @license    https://github.com/padraic/humbug/blob/master/LICENSE New BSD License
  */
 
-namespace Humbug\Phpunit\Filter\TestSuite;
+namespace Humbug\Phpunit\Filter;
 
-use Humbug\Phpunit\Filter\FilterInterface as BaseInterface;
-
-abstract class AbstractFilter implements BaseInterface
+interface FilterInterface
 {
+
+    public function filter(array $array);
+    
 }
