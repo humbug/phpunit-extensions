@@ -66,5 +66,6 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
             $suite->getName(),
             $this->currentSuiteTime
         );
+        $this->currentSuiteTime = 0;
     }
 }
