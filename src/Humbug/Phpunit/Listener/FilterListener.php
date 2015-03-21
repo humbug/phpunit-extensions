@@ -24,9 +24,16 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
 
     protected $suiteLevel = 0;
 
-    public function __construct()
+    /**
+     * @var int
+     */
+    protected $rootSuiteNestingLevel;
+
+    public function __construct($rootSuiteNestingLevel)
     {
+        $this->rootSuiteNestingLevel = $rootSuiteNestingLevel;
         $args = func_get_args();
+        array_shift($args);
         if (empty($args)) {
             throw new \Exception(
                 'No Humbug\Filter\FilterInterface objects assigned to FilterListener'
@@ -41,7 +48,7 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
     {
         $this->suiteLevel++;
         $this->currentSuiteName = $suite->getName();
-        if ($this->suiteLevel == 1) {
+        if ($this->suiteLevel == (1 + $this->rootSuiteNestingLevel)) {
             $this->rootSuiteName = $suite->getName();
             $suites = $suite->tests();
             $filtered = $this->filterSuites($suites);
