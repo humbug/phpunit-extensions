@@ -15,6 +15,8 @@ use Humbug\Phpunit\Logger\JsonLogger;
 class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
 {
 
+    private $rootSuiteNestingLevel = 0;
+
     protected $rootSuiteName;
 
     protected $currentSuiteName;
@@ -23,9 +25,10 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
 
     protected $suiteLevel = 0;
 
-    public function __construct(JsonLogger $logger)
+    public function __construct(JsonLogger $logger, $rootSuiteNestingLevel = 0)
     {
         $this->logger = $logger;
+        $this->rootSuiteNestingLevel = $rootSuiteNestingLevel;
     }
 
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
@@ -54,7 +57,7 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
          * is the parent root suite(s) defined in the XML config and Level 3 are
          * those hosting data provider tests.
          */
-        if ($this->suiteLevel !== 2) {
+        if ($this->suiteLevel !== (2 + $this->rootSuiteNestingLevel)) {
             $this->suiteLevel--;
             return;
         }
