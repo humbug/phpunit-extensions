@@ -28,7 +28,7 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
     public function __construct(JsonLogger $logger, $rootSuiteNestingLevel = 0)
     {
         $this->logger = $logger;
-        $this->rootSuiteNestingLevel = $rootSuiteNestingLevel;
+        $this->rootSuiteNestingLevel = $rootSuiteNestingLevel+1;
     }
 
     public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
