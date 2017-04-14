@@ -1,9 +1,9 @@
 <?php
 /**
- * Humbug
+ * Humbug.
  *
  * @category   Humbug
- * @package    Humbug
+ *
  * @copyright  Copyright (c) 2015 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    https://github.com/padraic/humbug/blob/master/LICENSE New BSD License
  */
@@ -15,7 +15,6 @@ use Humbug\Phpunit\Filter\TestSuite\AbstractFilter as TestSuiteFilter;
 
 class FilterListener extends \PHPUnit_Framework_BaseTestListener
 {
-
     protected $rootSuiteName;
 
     protected $currentSuiteName;
@@ -67,6 +66,7 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         foreach ($this->suiteFilters as $filter) {
             $filtered = $filter->filter($filtered);
         }
+
         return $filtered;
     }
 
@@ -76,5 +76,4 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
             $this->suiteFilters[] = $filter;
         }
     }
-
 }
