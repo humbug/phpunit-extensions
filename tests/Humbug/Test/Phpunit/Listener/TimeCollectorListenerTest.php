@@ -27,7 +27,7 @@ class TimeCollectorListenerTest extends \PHPUnit_Framework_TestCase
 
     protected function setup()
     {
-        $this->logger = m::mock(JsonLogger::class);
+        $this->logger = m::mock("\\Humbug\\Phpunit\\Logger\\JsonLogger");
         
         $this->test1 = m::mock("\\PHPUnit_Framework_Test");
         $this->test2 = m::mock("\\PHPUnit_Framework_Test");
