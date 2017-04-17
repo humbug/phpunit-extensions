@@ -25,7 +25,7 @@ class JsonLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldWriteLogsDuringDestruct()
     {
-        $jsonLogger = m::mock(JsonLogger::class)->makePartial();
+        $jsonLogger = m::mock("\\Humbug\\Phpunit\\Logger\\JsonLogger")->makePartial();
         $jsonLogger->shouldReceive("write")->once();
 
         $jsonLogger->__destruct();
