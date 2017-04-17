@@ -29,9 +29,9 @@ class TimeCollectorListenerTest extends \PHPUnit_Framework_TestCase
     {
         $this->logger = m::mock(JsonLogger::class);
         
-        $this->test1 = m::mock(\PHPUnit_Framework_Test::class);
-        $this->test2 = m::mock(\PHPUnit_Framework_Test::class);
-        $this->suite = m::mock(\PHPUnit_Framework_TestSuite::class);
+        $this->test1 = m::mock("\\PHPUnit_Framework_Test");
+        $this->test2 = m::mock("\\PHPUnit_Framework_Test");
+        $this->suite = m::mock("\\PHPUnit_Framework_TestSuite");
 
         $this->suite->shouldReceive("getName")->once()->andReturn("Suite1");
         $this->test1->shouldReceive("getName")->once()->andReturn("Test1");

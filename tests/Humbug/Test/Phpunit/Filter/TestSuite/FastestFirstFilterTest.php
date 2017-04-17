@@ -34,9 +34,9 @@ class FastestFirstFilterTest extends \PHPUnit_Framework_TestCase
     {
         $filter = new FastestFirstFilter($this->timeFile);
 
-        $suite1 = m::mock(\PHPUnit_Framework_TestSuite::class);
-        $suite2 = m::mock(\PHPUnit_Framework_TestSuite::class);
-        $suite3 = m::mock(\PHPUnit_Framework_TestSuite::class);
+        $suite1 = m::mock("\\PHPUnit_Framework_TestSuite");
+        $suite2 = m::mock("\\PHPUnit_Framework_TestSuite");
+        $suite3 = m::mock("\\PHPUnit_Framework_TestSuite");
 
         $suite1->shouldReceive("getName")->once()->andReturn("Suite1");
         $suite2->shouldReceive("getName")->once()->andReturn("Suite2");
