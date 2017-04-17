@@ -61,6 +61,11 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         $this->suiteLevel--;
     }
 
+    public function getSuiteLevel()
+    {
+        return $this->suiteLevel;
+    }
+
     protected function filterSuites(array $suites)
     {
         $filtered = $suites;

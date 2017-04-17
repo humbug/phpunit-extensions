@@ -43,7 +43,7 @@ class TimeCollectorListenerTest extends \PHPUnit_Framework_TestCase
         $this->logger->shouldReceive("write")->once();// on destruction
     }
 
-    public function testShouldThrowExceptionWhenTargetIsNotSpecified()
+    public function testShouldCollectNamesAndTimesForLogging()
     {
         $listener = new TimeCollectorListener($this->logger);
         $listener->startTestSuite($this->suite);
