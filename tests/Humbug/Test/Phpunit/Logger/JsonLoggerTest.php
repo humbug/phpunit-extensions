@@ -13,9 +13,10 @@ namespace Humbug\Test\Phpunit\Logger;
 
 use Mockery as m;
 use Humbug\Phpunit\Logger\JsonLogger;
+use PHPUnit\Framework\TestCase;
 use LogicException;
 
-class JsonLoggerTest extends \PHPUnit_Framework_TestCase
+class JsonLoggerTest extends TestCase
 {
     public function testShouldThrowExceptionWhenTargetIsNotSpecified()
     {
