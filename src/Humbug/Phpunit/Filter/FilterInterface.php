@@ -12,7 +12,5 @@ namespace Humbug\Phpunit\Filter;
 
 interface FilterInterface
 {
-
     public function filter(array $array);
-    
 }

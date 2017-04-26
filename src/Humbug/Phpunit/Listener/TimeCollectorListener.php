@@ -11,10 +11,12 @@
 namespace Humbug\Phpunit\Listener;
 
 use Humbug\Phpunit\Logger\JsonLogger;
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestSuite;
 
-class TimeCollectorListener extends \PHPUnit\Framework\BaseTestListener
+class TimeCollectorListener extends BaseTestListener
 {
-
     private $rootSuiteNestingLevel = 0;
 
     protected $rootSuiteName;
@@ -31,7 +33,7 @@ class TimeCollectorListener extends \PHPUnit\Framework\BaseTestListener
         $this->rootSuiteNestingLevel = $rootSuiteNestingLevel;
     }
 
-    public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
+    public function startTestSuite(TestSuite $suite)
     {
         $this->suiteLevel++;
         if (!isset($this->rootSuiteName)) {
@@ -40,7 +42,7 @@ class TimeCollectorListener extends \PHPUnit\Framework\BaseTestListener
         $this->currentSuiteName = $suite->getName();
     }
 
-    public function endTest(\PHPUnit\Framework\Test $test, $time)
+    public function endTest(Test $test, $time)
     {
         $this->currentSuiteTime += $time;
         $this->logger->logTest(
@@ -50,7 +52,7 @@ class TimeCollectorListener extends \PHPUnit\Framework\BaseTestListener
         );
     }
 
-    public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
+    public function endTestSuite(TestSuite $suite)
     {
         /**
          * Only log Level 2 test suites, i.e. your actual test classes. Level 1

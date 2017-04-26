@@ -12,7 +12,6 @@ namespace Humbug\Phpunit\Filter\TestSuite;
 
 class IncludeOnlyFilter extends AbstractFilter
 {
-
     private $exclusivelyInclude;
 
     public function __construct()
@@ -32,6 +31,4 @@ class IncludeOnlyFilter extends AbstractFilter
         }
         return $return;
     }
-
-
 }

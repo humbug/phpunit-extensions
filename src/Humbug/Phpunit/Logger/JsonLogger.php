@@ -10,6 +10,8 @@
 
 namespace Humbug\Phpunit\Logger;
 
+use LogicException;
+
 class JsonLogger
 {
     private $suites = [];
@@ -21,7 +23,7 @@ class JsonLogger
     public function __construct($target)
     {
         if (!$target) {
-            throw new \LogicException('JsonLogger requires logs target path');
+            throw new LogicException('JsonLogger requires logs target path');
         }
         $this->target = $target;
     }
