@@ -21,14 +21,14 @@ class JsonLoggerTest extends TestCase
     public function testShouldThrowExceptionWhenTargetIsNotSpecified()
     {
         $this->expectException(LogicException::class, 'JsonLogger requires logs target path');
-        
+
         new JsonLogger('');
     }
 
     public function testShouldWriteLogsDuringDestruct()
     {
         $jsonLogger = m::mock(JsonLogger::class)->makePartial();
-        $jsonLogger->shouldReceive("write")->once();
+        $jsonLogger->shouldReceive('write')->once();
 
         $jsonLogger->__destruct();
     }

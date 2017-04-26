@@ -1,23 +1,24 @@
 <?php
 /**
- * Humbug
+ * Humbug.
  *
  * @category   Humbug
- * @package    Humbug
+ *
  * @copyright  Copyright (c) 2017 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    https://github.com/humbug/humbug/blob/master/LICENSE New BSD License
  */
 
 namespace Humbug\Test\Phpunit\Listener;
 
-use Mockery as m;
-use Humbug\Phpunit\Logger\JsonLogger;
 use Humbug\Phpunit\Listener\TimeCollectorListener;
+use Humbug\Phpunit\Logger\JsonLogger;
+use Mockery as m;
+use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestSuite;
 
 class TimeCollectorListenerTest extends TestCase
 {
-
     private $logger;
 
     private $suite;
@@ -28,20 +29,20 @@ class TimeCollectorListenerTest extends TestCase
 
     protected function setup()
     {
-        $this->logger = m::mock("\\Humbug\\Phpunit\\Logger\\JsonLogger");
-        
-        $this->test1 = m::mock("\\PHPUnit\\Framework\\Test");
-        $this->test2 = m::mock("\\PHPUnit\\Framework\\Test");
-        $this->suite = m::mock("\\PHPUnit\\Framework\\TestSuite");
+        $this->logger = m::mock(JsonLogger::class);
 
-        $this->suite->shouldReceive("getName")->once()->andReturn("Suite1");
-        $this->test1->shouldReceive("getName")->once()->andReturn("Test1");
-        $this->logger->shouldReceive("logTest")->once()->with("Suite1", "Test1", m::type("float"));
-        $this->test2->shouldReceive("getName")->once()->andReturn("Test2");
-        $this->logger->shouldReceive("logTest")->once()->with("Suite1", "Test2", m::type("float"));
+        $this->test1 = m::mock(Test::class);
+        $this->test2 = m::mock(Test::class);
+        $this->suite = m::mock(TestSuite::class);
 
-        $this->logger->shouldReceive("endTestSuite")->once()->with($this->suite);
-        $this->logger->shouldReceive("write")->once();// on destruction
+        $this->suite->shouldReceive('getName')->once()->andReturn('Suite1');
+        $this->test1->shouldReceive('getName')->once()->andReturn('Test1');
+        $this->logger->shouldReceive('logTest')->once()->with('Suite1', 'Test1', m::type('float'));
+        $this->test2->shouldReceive('getName')->once()->andReturn('Test2');
+        $this->logger->shouldReceive('logTest')->once()->with('Suite1', 'Test2', m::type('float'));
+
+        $this->logger->shouldReceive('endTestSuite')->once()->with($this->suite);
+        $this->logger->shouldReceive('write')->once(); // on destruction
     }
 
     public function testShouldCollectNamesAndTimesForLogging()
@@ -52,5 +53,4 @@ class TimeCollectorListenerTest extends TestCase
         $listener->endTest($this->test2, 2.0);
         $listener->endTestSuite($this->suite);
     }
-
 }
