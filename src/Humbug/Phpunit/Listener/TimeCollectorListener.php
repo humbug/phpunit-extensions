@@ -1,9 +1,9 @@
 <?php
 /**
- * Humbug
+ * Humbug.
  *
  * @category   Humbug
- * @package    Humbug
+ *
  * @copyright  Copyright (c) 2015 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    https://github.com/padraic/humbug/blob/master/LICENSE New BSD License
  */
@@ -14,7 +14,6 @@ use Humbug\Phpunit\Logger\JsonLogger;
 
 class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
 {
-
     private $rootSuiteNestingLevel = 0;
 
     protected $rootSuiteName;
@@ -52,13 +51,14 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
 
     public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
     {
-        /**
+        /*
          * Only log Level 2 test suites, i.e. your actual test classes. Level 1
          * is the parent root suite(s) defined in the XML config and Level 3 are
          * those hosting data provider tests.
          */
         if ($this->suiteLevel !== (2 + $this->rootSuiteNestingLevel)) {
             $this->suiteLevel--;
+
             return;
         }
         $this->suiteLevel--;

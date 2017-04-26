@@ -1,9 +1,9 @@
 <?php
 /**
- * Humbug
+ * Humbug.
  *
  * @category   Humbug
- * @package    Humbug
+ *
  * @copyright  Copyright (c) 2015 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    https://github.com/padraic/humbug/blob/master/LICENSE New BSD License
  */
@@ -12,7 +12,6 @@ namespace Humbug\Phpunit\Filter\TestSuite;
 
 class FastestFirstFilter extends AbstractFilter
 {
-
     private $log;
 
     public function __construct($log)
@@ -37,8 +36,10 @@ class FastestFirstFilter extends AbstractFilter
             if ($times['suites'][$na] < $times['suites'][$nb]) {
                 return -1;
             }
+
             return 1;
         });
+
         return $array;
     }
 
@@ -47,11 +48,12 @@ class FastestFirstFilter extends AbstractFilter
         if (!file_exists($this->log)) {
             throw new \Exception(sprintf(
                 'Log file for collected times does not exist: %s. '
-                . 'Use the Humbug\Phpunit\Listener\TimeCollectorListener listener prior '
-                . 'to using the FastestFirstFilter filter at least once',
+                .'Use the Humbug\Phpunit\Listener\TimeCollectorListener listener prior '
+                .'to using the FastestFirstFilter filter at least once',
                 $this->log
             ));
         }
+
         return json_decode(file_get_contents($this->log), true);
     }
 }
