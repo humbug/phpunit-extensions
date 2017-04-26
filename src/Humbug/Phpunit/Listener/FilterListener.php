@@ -13,7 +13,7 @@ namespace Humbug\Phpunit\Listener;
 use Humbug\Phpunit\Filter\FilterInterface;
 use Humbug\Phpunit\Filter\TestSuite\AbstractFilter as TestSuiteFilter;
 
-class FilterListener extends \PHPUnit_Framework_BaseTestListener
+class FilterListener extends \PHPUnit\Framework\BaseTestListener
 {
 
     protected $rootSuiteName;
@@ -44,7 +44,7 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         }
     }
 
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(\PHPUnit\Framework\TestSuite $suite)
     {
         $this->suiteLevel++;
         $this->currentSuiteName = $suite->getName();
@@ -56,7 +56,7 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         }
     }
 
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(\PHPUnit\Framework\TestSuite $suite)
     {
         $this->suiteLevel--;
     }

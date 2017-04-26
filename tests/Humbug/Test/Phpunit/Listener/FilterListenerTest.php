@@ -13,8 +13,9 @@ namespace Humbug\Test\Phpunit\Listener;
 use Mockery as m;
 use Humbug\Phpunit\Filter\FilterInterface;
 use Humbug\Phpunit\Listener\FilterListener;
+use PHPUnit\Framework\TestCase;
 
-class FilterListenerTest extends \PHPUnit_Framework_TestCase
+class FilterListenerTest extends TestCase
 {
 
     private $filter;
@@ -28,9 +29,9 @@ class FilterListenerTest extends \PHPUnit_Framework_TestCase
     protected function setup()
     {
         $this->filter = m::mock("\\Humbug\Phpunit\\Filter\\FilterInterface");
-        $this->suite = m::mock("\\PHPUnit_Framework_TestSuite");
-        $this->subSuite1 = m::mock("\\PHPUnit_Framework_TestSuite");
-        $this->subSuite2 = m::mock("\\PHPUnit_Framework_TestSuite");
+        $this->suite = m::mock("\\PHPUnit\\Framework\\TestSuite");
+        $this->subSuite1 = m::mock("\\PHPUnit\\Framework\\TestSuite");
+        $this->subSuite2 = m::mock("\\PHPUnit\\Framework\\TestSuite");
 
         $this->suite->shouldReceive("getName")->once()->andReturn("Suite1");
         $this->suite->shouldReceive("tests")->once()->andReturn(array($this->subSuite1, $this->subSuite2));

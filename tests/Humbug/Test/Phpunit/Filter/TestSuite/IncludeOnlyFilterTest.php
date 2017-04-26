@@ -12,8 +12,9 @@ namespace Humbug\Test\Phpunit\Filter\TestSuite;
 
 use Mockery as m;
 use Humbug\Phpunit\Filter\TestSuite\IncludeOnlyFilter;
+use PHPUnit\Framework\TestCase;
 
-class IncludeOnlyFilterTest extends \PHPUnit_Framework_TestCase
+class IncludeOnlyFilterTest extends TestCase
 {
 
 
