@@ -13,8 +13,8 @@ namespace Humbug\Test\Phpunit\Logger;
 
 use Mockery as m;
 use Humbug\Phpunit\Logger\JsonLogger;
-use PHPUnit\Framework\TestCase;
 use LogicException;
+use PHPUnit\Framework\TestCase;
 
 class JsonLoggerTest extends TestCase
 {
