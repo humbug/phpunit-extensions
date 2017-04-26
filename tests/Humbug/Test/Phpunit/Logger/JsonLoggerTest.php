@@ -12,6 +12,9 @@
 
 namespace Humbug\Test\Phpunit\Logger;
 
+use Mockery as m;
+use Humbug\Phpunit\Logger\JsonLogger;
+
 class JsonLoggerTest extends \PHPUnit_Framework_TestCase
 {
     public function testShouldThrowExceptionWhenTargetIsNotSpecified()
@@ -22,9 +25,8 @@ class JsonLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldWriteLogsDuringDestruct()
     {
-        $jsonLogger = $this->getMock('\Humbug\Phpunit\Logger\JsonLogger', ['write'], ['/target/path']);
-
-        $jsonLogger->expects($this->once())->method('write');
+        $jsonLogger = m::mock("\\Humbug\\Phpunit\\Logger\\JsonLogger")->makePartial();
+        $jsonLogger->shouldReceive("write")->once();
 
         $jsonLogger->__destruct();
     }
