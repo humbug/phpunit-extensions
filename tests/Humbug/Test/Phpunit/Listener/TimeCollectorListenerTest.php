@@ -12,42 +12,50 @@ namespace Humbug\Test\Phpunit\Listener;
 
 use Humbug\Phpunit\Listener\TimeCollectorListener;
 use Humbug\Phpunit\Logger\JsonLogger;
-use Mockery as m;
-use PHPUnit\Framework\Test;
+use Humbug\Phpunit\Writer\JsonWriter;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestSuite;
 
 class TimeCollectorListenerTest extends TestCase
 {
-    private $logger;
+    /**
+     * @var JsonWriter
+     */
+    private $writer;
 
+    /**
+     * @var TestSuite
+     */
     private $suite;
 
+    /**
+     * @var TestCase
+     */
     private $test1;
 
+    /**
+     * @var TestCase
+     */
     private $test2;
 
-    protected function setup()
+    protected function setUp()
     {
-        $this->logger = m::mock(JsonLogger::class);
+        $this->writer = $this->createMock(JsonWriter::class);
+        $this->writer->expects($this->once())->method('write'); // on destruction
 
-        $this->test1 = m::mock(Test::class);
-        $this->test2 = m::mock(Test::class);
-        $this->suite = m::mock(TestSuite::class);
+        $this->test1 = $this->createMock(TestCase::class);
+        $this->test1->expects($this->once())->method('getName')->willReturn('Test1');
 
-        $this->suite->shouldReceive('getName')->once()->andReturn('Suite1');
-        $this->test1->shouldReceive('getName')->once()->andReturn('Test1');
-        $this->logger->shouldReceive('logTest')->once()->with('Suite1', 'Test1', m::type('float'));
-        $this->test2->shouldReceive('getName')->once()->andReturn('Test2');
-        $this->logger->shouldReceive('logTest')->once()->with('Suite1', 'Test2', m::type('float'));
+        $this->test2 = $this->createMock(TestCase::class);
+        $this->test2->expects($this->once())->method('getName')->willReturn('Test2');
 
-        $this->logger->shouldReceive('endTestSuite')->once()->with($this->suite);
-        $this->logger->shouldReceive('write')->once(); // on destruction
+        $this->suite = $this->createMock(TestSuite::class);
+        $this->suite->method('getName')->willReturn('Suite1');
     }
 
     public function testShouldCollectNamesAndTimesForLogging()
     {
-        $listener = new TimeCollectorListener($this->logger);
+        $listener = new TimeCollectorListener(new JsonLogger($this->writer));
         $listener->startTestSuite($this->suite);
         $listener->endTest($this->test1, 1.0);
         $listener->endTest($this->test2, 2.0);

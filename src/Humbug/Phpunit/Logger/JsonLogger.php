@@ -10,22 +10,28 @@
 
 namespace Humbug\Phpunit\Logger;
 
-use LogicException;
+use Humbug\Phpunit\Writer\JsonWriter;
 
 class JsonLogger
 {
+    /**
+     * @var array
+     */
     private $suites = [];
 
+    /**
+     * @var array
+     */
     private $tests = [];
 
-    private $target;
+    /**
+     * @var JsonWriter
+     */
+    private $writer;
 
-    public function __construct($target)
+    public function __construct(JsonWriter $writer)
     {
-        if (!$target) {
-            throw new LogicException('JsonLogger requires logs target path');
-        }
-        $this->target = $target;
+        $this->writer = $writer;
     }
 
     public function __destruct()
@@ -51,15 +57,9 @@ class JsonLogger
 
     public function write()
     {
-        file_put_contents(
-            $this->target,
-            json_encode(
-                [
-                    'suites' => $this->suites,
-                    'tests'  => $this->tests,
-                ],
-                JSON_PRETTY_PRINT
-            )
-        );
+        $this->writer->write([
+            'suites' => $this->suites,
+            'tests'  => $this->tests,
+        ]);
     }
 }

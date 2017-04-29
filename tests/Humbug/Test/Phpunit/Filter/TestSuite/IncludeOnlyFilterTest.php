@@ -11,16 +11,19 @@
 namespace Humbug\Test\Phpunit\Filter\TestSuite;
 
 use Humbug\Phpunit\Filter\TestSuite\IncludeOnlyFilter;
-use Mockery as m;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestSuite;
 
 class IncludeOnlyFilterTest extends TestCase
 {
     public function testShouldFilterSuitesAndReturnChosenSelection()
     {
-        $suite1 = m::mock(['getName' => 'Suite1']);
-        $suite2 = m::mock(['getName' => 'Suite2']);
-        $suite3 = m::mock(['getName' => 'Suite3']);
+        $suite1 = $this->createMock(TestSuite::class);
+        $suite1->method('getName')->willReturn('Suite1');
+        $suite2 = $this->createMock(TestSuite::class);
+        $suite2->method('getName')->willReturn('Suite2');
+        $suite3 = $this->createMock(TestSuite::class);
+        $suite3->method('getName')->willReturn('Suite3');
 
         $filter = new IncludeOnlyFilter('Suite1', 'Suite3');
 

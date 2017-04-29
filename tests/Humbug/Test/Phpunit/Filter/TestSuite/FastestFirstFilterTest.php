@@ -11,7 +11,6 @@
 namespace Humbug\Test\Phpunit\Filter\TestSuite;
 
 use Humbug\Phpunit\Filter\TestSuite\FastestFirstFilter;
-use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestSuite as PHPUnitTestSuite;
 
@@ -19,14 +18,14 @@ class FastestFirstFilterTest extends TestCase
 {
     protected $timeFile = null;
 
-    protected function setup()
+    protected function setUp()
     {
         $tmp = sys_get_temp_dir();
         $this->timeFile = $tmp.'/times.json';
         file_put_contents($this->timeFile, '{"suites":{"Suite1":"2","Suite2":"3","Suite3":"1"}}');
     }
 
-    protected function teardown()
+    protected function tearDown()
     {
         @unlink($this->timeFile);
     }
@@ -35,13 +34,14 @@ class FastestFirstFilterTest extends TestCase
     {
         $filter = new FastestFirstFilter($this->timeFile);
 
-        $suite1 = m::mock(PHPUnitTestSuite::class);
-        $suite2 = m::mock(PHPUnitTestSuite::class);
-        $suite3 = m::mock(PHPUnitTestSuite::class);
+        $suite1 = $this->createMock(PHPUnitTestSuite::class);
+        $suite1->method('getName')->willReturn('Suite1');
 
-        $suite1->shouldReceive('getName')->once()->andReturn('Suite1');
-        $suite2->shouldReceive('getName')->once()->andReturn('Suite2');
-        $suite3->shouldReceive('getName')->once()->andReturn('Suite3');
+        $suite2 = $this->createMock(PHPUnitTestSuite::class);
+        $suite2->method('getName')->willReturn('Suite2');
+
+        $suite3 = $this->createMock(PHPUnitTestSuite::class);
+        $suite3->method('getName')->willReturn('Suite3');
 
         $return = $filter->filter([$suite1, $suite2, $suite3]);
 

@@ -12,24 +12,26 @@
 namespace Humbug\Test\Phpunit\Logger;
 
 use Humbug\Phpunit\Logger\JsonLogger;
-use LogicException;
-use Mockery as m;
+use Humbug\Phpunit\Writer\JsonWriter;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class JsonLoggerTest extends TestCase
 {
-    public function testShouldThrowExceptionWhenTargetIsNotSpecified()
-    {
-        $this->expectException(LogicException::class, 'JsonLogger requires logs target path');
+    /**
+     * @var JsonWriter
+     */
+    private $writer;
 
-        new JsonLogger('');
+    public function setUp()
+    {
+        $this->writer = $this->createMock(JsonWriter::class);
     }
 
     public function testShouldWriteLogsDuringDestruct()
     {
-        $jsonLogger = m::mock(JsonLogger::class)->makePartial();
-        $jsonLogger->shouldReceive('write')->once();
+        $this->writer->expects($this->once())->method('write');
 
-        $jsonLogger->__destruct();
+        new JsonLogger($this->writer);
     }
 }

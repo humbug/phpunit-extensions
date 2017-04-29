@@ -12,7 +12,6 @@ namespace Humbug\Test\Phpunit\Listener;
 
 use Humbug\Phpunit\Filter\FilterInterface;
 use Humbug\Phpunit\Listener\FilterListener;
-use Mockery as m;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestSuite;
 
@@ -26,25 +25,25 @@ class FilterListenerTest extends TestCase
 
     private $subSuite2;
 
-    protected function setup()
+    protected function setUp()
     {
-        $this->filter = m::mock(FilterInterface::class);
-        $this->suite = m::mock(TestSuite::class);
-        $this->subSuite1 = m::mock(TestSuite::class);
-        $this->subSuite2 = m::mock(TestSuite::class);
+        $this->filter = $this->createMock(FilterInterface::class);
+        $this->suite = $this->createMock(TestSuite::class);
+        $this->subSuite1 = $this->createMock(TestSuite::class);
+        $this->subSuite2 = $this->createMock(TestSuite::class);
 
-        $this->suite->shouldReceive('getName')->once()->andReturn('Suite1');
-        $this->suite->shouldReceive('tests')->once()->andReturn([$this->subSuite1, $this->subSuite2]);
+        $this->suite->expects($this->atLeast(1))->method('getName')->willReturn('Suite1');
+        $this->suite->expects($this->once())->method('tests')->willReturn([$this->subSuite1, $this->subSuite2]);
 
-        $this->filter->shouldReceive('filter')->once()
+        $this->filter->expects($this->once())->method('filter')
             ->with([$this->subSuite1, $this->subSuite2])
-            ->andReturn([$this->subSuite2, $this->subSuite1]);
+            ->willReturn([$this->subSuite2, $this->subSuite1]);
 
         /*
          * The setTests method name is deceptive, it essentially accepts an array of
          * (sub-)TestSuite objects nested into current TestSuite.
          */
-        $this->suite->shouldReceive('setTests')->once()->with([$this->subSuite2, $this->subSuite1]);
+        $this->suite->expects($this->once())->method('setTests')->with([$this->subSuite2, $this->subSuite1]);
     }
 
     public function testShouldFilterSubSuites()

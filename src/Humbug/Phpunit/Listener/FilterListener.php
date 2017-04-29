@@ -12,7 +12,6 @@ namespace Humbug\Phpunit\Listener;
 
 use Exception;
 use Humbug\Phpunit\Filter\FilterInterface;
-use Humbug\Phpunit\Filter\TestSuite\AbstractFilter as TestSuiteFilter;
 use PHPUnit\Framework\BaseTestListener;
 use PHPUnit\Framework\TestSuite;
 
@@ -81,8 +80,6 @@ class FilterListener extends BaseTestListener
 
     protected function addFilter(FilterInterface $filter)
     {
-        if ($filter instanceof TestSuiteFilter) {
-            $this->suiteFilters[] = $filter;
-        }
+        $this->suiteFilters[] = $filter;
     }
 }

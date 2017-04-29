@@ -17,6 +17,8 @@ use PHPUnit\Framework\TestSuite;
 
 class TimeCollectorListener extends BaseTestListener
 {
+    private $logger;
+
     private $rootSuiteNestingLevel = 0;
 
     protected $rootSuiteName;
@@ -33,6 +35,12 @@ class TimeCollectorListener extends BaseTestListener
         $this->rootSuiteNestingLevel = $rootSuiteNestingLevel;
     }
 
+    public function __destruct()
+    {
+        $this->rootSuiteNestingLevel = null;
+        $this->logger = null;
+    }
+
     public function startTestSuite(TestSuite $suite)
     {
         $this->suiteLevel++;
@@ -42,6 +50,10 @@ class TimeCollectorListener extends BaseTestListener
         $this->currentSuiteName = $suite->getName();
     }
 
+    /**
+     * @param Test $test  It must be TestCase, as getName() does not exist on Test but BaseTestListener requires Test.
+     * @param float $time
+     */
     public function endTest(Test $test, $time)
     {
         $this->currentSuiteTime += $time;
