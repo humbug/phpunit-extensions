@@ -51,7 +51,7 @@ class TimeCollectorListener extends BaseTestListener
     }
 
     /**
-     * @param Test $test  It must be TestCase, as getName() does not exist on Test but BaseTestListener requires Test.
+     * @param Test $test It must be TestCase, as getName() does not exist on Test but BaseTestListener requires Test.
      * @param float $time
      */
     public function endTest(Test $test, $time)

@@ -21,7 +21,7 @@ class JsonWriterTest extends TestCase
             [''],
             [[]],
             [null],
-            [new stdClass()]
+            [new stdClass()],
         ];
     }
 }

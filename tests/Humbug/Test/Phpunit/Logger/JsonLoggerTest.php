@@ -13,7 +13,6 @@ namespace Humbug\Test\Phpunit\Logger;
 
 use Humbug\Phpunit\Logger\JsonLogger;
 use Humbug\Phpunit\Writer\JsonWriter;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class JsonLoggerTest extends TestCase
