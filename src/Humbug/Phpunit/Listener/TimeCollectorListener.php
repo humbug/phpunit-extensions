@@ -51,7 +51,13 @@ class TimeCollectorListener extends BaseTestListener
     }
 
     /**
-     * @param Test $test It must be TestCase, as getName() does not exist on Test but BaseTestListener requires Test.
+     * Logs the end of the test.
+     *
+     * This method hints Test for its first parameter but then uses getName(), which does not exist on that interface.
+     * getName() exists on TestCase though, which inherits from Test. So here we assume that $test is always an instance
+     * of TestCase rather than test.
+     *
+     * @param Test  $test
      * @param float $time
      */
     public function endTest(Test $test, $time)
