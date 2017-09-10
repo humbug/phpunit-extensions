@@ -1,21 +1,22 @@
 <?php
 /**
- * Humbug
+ * Humbug.
  *
  * @category   Humbug
- * @package    Humbug
+ *
  * @copyright  Copyright (c) 2015 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    https://github.com/padraic/humbug/blob/master/LICENSE New BSD License
  */
 
 namespace Humbug\Phpunit\Listener;
 
+use Exception;
 use Humbug\Phpunit\Filter\FilterInterface;
-use Humbug\Phpunit\Filter\TestSuite\AbstractFilter as TestSuiteFilter;
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestSuite;
 
-class FilterListener extends \PHPUnit_Framework_BaseTestListener
+class FilterListener extends BaseTestListener
 {
-
     protected $rootSuiteName;
 
     protected $currentSuiteName;
@@ -35,16 +36,17 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         $args = func_get_args();
         array_shift($args);
         if (empty($args)) {
-            throw new \Exception(
-                'No Humbug\Filter\FilterInterface objects assigned to FilterListener'
-            );
+            throw new Exception(sprintf(
+                'No %s objects assigned to FilterListener',
+                FilterInterface::class
+            ));
         }
         foreach ($args as $filter) {
             $this->addFilter($filter);
         }
     }
 
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(TestSuite $suite)
     {
         $this->suiteLevel++;
         $this->currentSuiteName = $suite->getName();
@@ -56,7 +58,7 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         }
     }
 
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(TestSuite $suite)
     {
         $this->suiteLevel--;
     }
@@ -72,14 +74,12 @@ class FilterListener extends \PHPUnit_Framework_BaseTestListener
         foreach ($this->suiteFilters as $filter) {
             $filtered = $filter->filter($filtered);
         }
+
         return $filtered;
     }
 
     protected function addFilter(FilterInterface $filter)
     {
-        if ($filter instanceof TestSuiteFilter) {
-            $this->suiteFilters[] = $filter;
-        }
+        $this->suiteFilters[] = $filter;
     }
-
 }

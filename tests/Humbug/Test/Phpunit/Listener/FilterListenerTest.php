@@ -1,22 +1,22 @@
 <?php
 /**
- * Humbug
+ * Humbug.
  *
  * @category   Humbug
- * @package    Humbug
+ *
  * @copyright  Copyright (c) 2017 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    https://github.com/humbug/humbug/blob/master/LICENSE New BSD License
  */
 
 namespace Humbug\Test\Phpunit\Listener;
 
-use Mockery as m;
 use Humbug\Phpunit\Filter\FilterInterface;
 use Humbug\Phpunit\Listener\FilterListener;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestSuite;
 
-class FilterListenerTest extends \PHPUnit_Framework_TestCase
+class FilterListenerTest extends TestCase
 {
-
     private $filter;
 
     private $suite;
@@ -25,25 +25,25 @@ class FilterListenerTest extends \PHPUnit_Framework_TestCase
 
     private $subSuite2;
 
-    protected function setup()
+    protected function setUp()
     {
-        $this->filter = m::mock("\\Humbug\Phpunit\\Filter\\FilterInterface");
-        $this->suite = m::mock("\\PHPUnit_Framework_TestSuite");
-        $this->subSuite1 = m::mock("\\PHPUnit_Framework_TestSuite");
-        $this->subSuite2 = m::mock("\\PHPUnit_Framework_TestSuite");
+        $this->filter = $this->createMock(FilterInterface::class);
+        $this->suite = $this->createMock(TestSuite::class);
+        $this->subSuite1 = $this->createMock(TestSuite::class);
+        $this->subSuite2 = $this->createMock(TestSuite::class);
 
-        $this->suite->shouldReceive("getName")->once()->andReturn("Suite1");
-        $this->suite->shouldReceive("tests")->once()->andReturn(array($this->subSuite1, $this->subSuite2));
+        $this->suite->expects($this->atLeast(1))->method('getName')->willReturn('Suite1');
+        $this->suite->expects($this->once())->method('tests')->willReturn([$this->subSuite1, $this->subSuite2]);
 
-        $this->filter->shouldReceive("filter")->once()
-            ->with(array($this->subSuite1, $this->subSuite2))
-            ->andReturn(array($this->subSuite2, $this->subSuite1));
+        $this->filter->expects($this->once())->method('filter')
+            ->with([$this->subSuite1, $this->subSuite2])
+            ->willReturn([$this->subSuite2, $this->subSuite1]);
 
-        /**
+        /*
          * The setTests method name is deceptive, it essentially accepts an array of
          * (sub-)TestSuite objects nested into current TestSuite.
          */
-        $this->suite->shouldReceive("setTests")->once()->with(array($this->subSuite2, $this->subSuite1));
+        $this->suite->expects($this->once())->method('setTests')->with([$this->subSuite2, $this->subSuite1]);
     }
 
     public function testShouldFilterSubSuites()
@@ -51,8 +51,7 @@ class FilterListenerTest extends \PHPUnit_Framework_TestCase
         $listener = new FilterListener(0, $this->filter);
         $listener->startTestSuite($this->suite);
 
-
-        /**
+        /*
          * Asset that nesting was reset to root suite
          */
         $this->assertSame(1, $listener->getSuiteLevel());
@@ -61,5 +60,4 @@ class FilterListenerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(0, $listener->getSuiteLevel());
     }
-
 }

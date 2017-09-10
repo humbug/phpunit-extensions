@@ -1,33 +1,36 @@
 <?php
 /**
- * Humbug
+ * Humbug.
  *
  * @category   Humbug
- * @package    Humbug
+ *
  * @copyright  Copyright (c) 2015 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    https://github.com/padraic/humbug/blob/master/LICENSE New BSD License
- *
  * @author rafal.wartalski@gmail.com
  */
 
 namespace Humbug\Test\Phpunit\Logger;
 
-use Mockery as m;
 use Humbug\Phpunit\Logger\JsonLogger;
+use Humbug\Phpunit\Writer\JsonWriter;
+use PHPUnit\Framework\TestCase;
 
-class JsonLoggerTest extends \PHPUnit_Framework_TestCase
+class JsonLoggerTest extends TestCase
 {
-    public function testShouldThrowExceptionWhenTargetIsNotSpecified()
+    /**
+     * @var JsonWriter
+     */
+    private $writer;
+
+    public function setUp()
     {
-        $this->setExpectedException('\LogicException', 'JsonLogger requires logs target path');
-        new \Humbug\Phpunit\Logger\JsonLogger('');
+        $this->writer = $this->createMock(JsonWriter::class);
     }
 
     public function testShouldWriteLogsDuringDestruct()
     {
-        $jsonLogger = m::mock("\\Humbug\\Phpunit\\Logger\\JsonLogger")->makePartial();
-        $jsonLogger->shouldReceive("write")->once();
+        $this->writer->expects($this->once())->method('write');
 
-        $jsonLogger->__destruct();
+        new JsonLogger($this->writer);
     }
 }

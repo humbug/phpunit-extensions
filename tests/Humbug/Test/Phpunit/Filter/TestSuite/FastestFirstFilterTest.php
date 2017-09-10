@@ -1,31 +1,31 @@
 <?php
 /**
- * Humbug
+ * Humbug.
  *
  * @category   Humbug
- * @package    Humbug
+ *
  * @copyright  Copyright (c) 2017 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    https://github.com/humbug/humbug/blob/master/LICENSE New BSD License
  */
 
 namespace Humbug\Test\Phpunit\Filter\TestSuite;
 
-use Mockery as m;
 use Humbug\Phpunit\Filter\TestSuite\FastestFirstFilter;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestSuite as PHPUnitTestSuite;
 
-class FastestFirstFilterTest extends \PHPUnit_Framework_TestCase
+class FastestFirstFilterTest extends TestCase
 {
-
     protected $timeFile = null;
 
-    protected function setup()
+    protected function setUp()
     {
         $tmp = sys_get_temp_dir();
-        $this->timeFile = $tmp."/times.json";
-        file_put_contents($this->timeFile, "{\"suites\":{\"Suite1\":\"2\",\"Suite2\":\"3\",\"Suite3\":\"1\"}}");
+        $this->timeFile = $tmp.'/times.json';
+        file_put_contents($this->timeFile, '{"suites":{"Suite1":"2","Suite2":"3","Suite3":"1"}}');
     }
 
-    protected function teardown()
+    protected function tearDown()
     {
         @unlink($this->timeFile);
     }
@@ -34,20 +34,17 @@ class FastestFirstFilterTest extends \PHPUnit_Framework_TestCase
     {
         $filter = new FastestFirstFilter($this->timeFile);
 
-        $suite1 = m::mock("\\PHPUnit_Framework_TestSuite");
-        $suite2 = m::mock("\\PHPUnit_Framework_TestSuite");
-        $suite3 = m::mock("\\PHPUnit_Framework_TestSuite");
+        $suite1 = $this->createMock(PHPUnitTestSuite::class);
+        $suite1->method('getName')->willReturn('Suite1');
 
-        $suite1->shouldReceive("getName")->once()->andReturn("Suite1");
-        $suite2->shouldReceive("getName")->once()->andReturn("Suite2");
-        $suite3->shouldReceive("getName")->once()->andReturn("Suite3");
+        $suite2 = $this->createMock(PHPUnitTestSuite::class);
+        $suite2->method('getName')->willReturn('Suite2');
+
+        $suite3 = $this->createMock(PHPUnitTestSuite::class);
+        $suite3->method('getName')->willReturn('Suite3');
 
         $return = $filter->filter([$suite1, $suite2, $suite3]);
 
-        $this->assertSame(
-            [$suite3, $suite1, $suite2],
-            $return
-        );
+        $this->assertSame([$suite3, $suite1, $suite2], $return);
     }
-
 }

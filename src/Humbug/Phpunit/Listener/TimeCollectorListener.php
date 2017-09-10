@@ -1,9 +1,9 @@
 <?php
 /**
- * Humbug
+ * Humbug.
  *
  * @category   Humbug
- * @package    Humbug
+ *
  * @copyright  Copyright (c) 2015 Pádraic Brady (http://blog.astrumfutura.com)
  * @license    https://github.com/padraic/humbug/blob/master/LICENSE New BSD License
  */
@@ -11,9 +11,13 @@
 namespace Humbug\Phpunit\Listener;
 
 use Humbug\Phpunit\Logger\JsonLogger;
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestSuite;
 
-class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
+class TimeCollectorListener extends BaseTestListener
 {
+    private $logger;
 
     private $rootSuiteNestingLevel = 0;
 
@@ -31,7 +35,13 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
         $this->rootSuiteNestingLevel = $rootSuiteNestingLevel;
     }
 
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function __destruct()
+    {
+        $this->rootSuiteNestingLevel = null;
+        $this->logger = null;
+    }
+
+    public function startTestSuite(TestSuite $suite)
     {
         $this->suiteLevel++;
         if (!isset($this->rootSuiteName)) {
@@ -40,7 +50,17 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
         $this->currentSuiteName = $suite->getName();
     }
 
-    public function endTest(\PHPUnit_Framework_Test $test, $time)
+    /**
+     * Logs the end of the test.
+     *
+     * This method hints Test for its first parameter but then uses getName(), which does not exist on that interface.
+     * getName() exists on TestCase though, which inherits from Test. So here we assume that $test is always an instance
+     * of TestCase rather than test.
+     *
+     * @param Test  $test
+     * @param float $time
+     */
+    public function endTest(Test $test, $time)
     {
         $this->currentSuiteTime += $time;
         $this->logger->logTest(
@@ -50,15 +70,16 @@ class TimeCollectorListener extends \PHPUnit_Framework_BaseTestListener
         );
     }
 
-    public function endTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function endTestSuite(TestSuite $suite)
     {
-        /**
+        /*
          * Only log Level 2 test suites, i.e. your actual test classes. Level 1
          * is the parent root suite(s) defined in the XML config and Level 3 are
          * those hosting data provider tests.
          */
         if ($this->suiteLevel !== (2 + $this->rootSuiteNestingLevel)) {
             $this->suiteLevel--;
+
             return;
         }
         $this->suiteLevel--;
